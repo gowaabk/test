@@ -1,0 +1,40 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}"/>
+    <title>{% block title %} {{title}} {% endblock %}</title>
+</head>
+<body>
+<ul class="sidebar-nav">
+    {% if user.is_authenticated %}
+    <li>Добро пожаловать: {{ user.get_username }}</li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+    <li><a href="{% url 'get_user_recipes' %}">Мои рецепты</a></li>
+    <li><a href="{% url 'add_recipe' %}">Добавить рецепт</a></li>
+    {% else %}
+    <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+    <li><a href="{% url 'home' %}">На главную</a></li>
+    <li><a href="{% url 'authors' %}">Все авторы</a></li>
+    <li><a href="{% url 'recipes' %}">Все рецепты</a></li>
+</ul>
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="{{ message.tags }}">
+        {{ message|safe }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}
+{% endblock %}
+</body>
+</html>
